@@ -47,13 +47,11 @@ class coca(object):
 
     def passo(self, matrix):
         copy = np.copy(matrix)
-        for i in range(matrix.shape[0]):
-            for j in range(matrix.shape[1]):
+        for i in range(1, matrix.shape[0]-1):
+            for j in range(1,matrix.shape[1]-1):
                 dTx = self.Eq1(matrix[i][j], matrix[i + 1][j], matrix[i - 1][j])
                 dTy = self.Eq2(matrix[i][j], matrix[i][j + 1], matrix[i][j - 1])
-
                 dTz = 0
-                # print(i, j, "meio")
                 copy[i, j] = self.newT(dTx, dTy, dTz, matrix[i][j])
 
         return copy
@@ -64,6 +62,16 @@ class coca(object):
             matrix = self.passo(matrix)
         return matrix
 
+    def parserText(self, matriz):
+        stringF = ""
+        for i in range(len(matriz)):
+            stringF += "[   "
+            for j in range(matriz.shape[1]):
+                stringF += str(round(matriz[i][j], 5)) + "    "
+            stringF += "]\n"
+        with open("saida.txt", "w") as txt:
+            txt.write(str(stringF))
+
 
 
 dx = 0.10
@@ -73,7 +81,8 @@ k = 0.23 # condutividade termica
 rho = 2.7e-6 # densidade
 Cp = 897 # calor especifico
 alpha = k / (rho * Cp)
-temp_ext = [150, 0, 0, 50]
+alpha = 0.25
+temp_ext = [150, 0, 0, 0]
 dt = 1e-2
 
 coke = coca(dx, dy, dimensions, alpha, dt, k)
@@ -84,5 +93,7 @@ matrix_temp = coke.create_temp_matrix(object_temp, temp_ext)
 
 tMax = 10
 solved = coke.solve(matrix_temp, tMax)
+
+print(solved)
 
 coke.parserText(solved)
