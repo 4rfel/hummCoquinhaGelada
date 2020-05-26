@@ -1,5 +1,5 @@
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 class coca(object):
     def __init__(self, dx, dy, dimensions, alpha, dt, K):
@@ -72,6 +72,13 @@ class coca(object):
         with open("saida.txt", "w") as txt:
             txt.write(str(stringF))
 
+    def plotColorMap(self, matrix):
+        color_map = plt.imshow(matrix)
+        color_map.set_cmap("Reds")
+        plt.title("Temperaturas no espaço 2D")
+        plt.colorbar()
+        plt.savefig("grafico_colormap.png")
+
 
 
 dx = 0.10
@@ -97,3 +104,4 @@ solved = coke.solve(matrix_temp, tMax)
 print(solved)
 
 coke.parserText(solved)
+coke.plotColorMap(solved)
