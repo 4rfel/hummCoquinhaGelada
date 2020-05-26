@@ -145,6 +145,13 @@ class coca(object):
         with open("saida.txt", "w") as txt:
             txt.write(str(stringF))
 
+    def plotColorMap(self, matrix):
+        color_map = plt.imshow(matrix)
+        color_map.set_cmap("Reds")
+        plt.title("Temperaturas no espaço 2D")
+        plt.colorbar()
+        plt.savefig("grafico_colormap2.png")
+
 dx = 0.10
 dy = 0.10
 dimensions = [0.40, 0.40]
@@ -176,3 +183,4 @@ solved = coke.solve(matrix_temp, tMax)
 coke.rodaErro(solved, gabaritoTarefa2, erroTarefa2)
 
 coke.parserText(solved)
+coke.plotColorMap(solved)
