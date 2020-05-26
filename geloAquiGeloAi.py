@@ -17,9 +17,6 @@ class coca(object):
         self.K = K
 
     def create_temp_matrix(self, temp_int, temp_ext):
-        """
-        dimenions is a tuple with the width and the height in that order
-        """
         nx = int(self.dimensions[0]/self.dx) + 1
         ny = int(self.dimensions[1]/self.dy) + 1
         matrix_temp = np.zeros([nx, ny])
@@ -77,7 +74,7 @@ class coca(object):
                     pass
                 elif i == 0:
                     if self.isolate[0]:
-                        dT = self.q2LinhaY(matrix[i + 1][j], matrix[i - 1][j])
+                        dT = 10
                     else:
                         dT = 0
                     # print(i, j, "topo")
@@ -85,7 +82,7 @@ class coca(object):
 
                 elif j == 0:
                     if self.isolate[1]:
-                        dT = self.q2LinhaX(matrix[i][j + 1], matrix[i][j - 1])
+                        dT = 10
                     else:
                         dT = 0
                     # print(i, j, "esquerda")
@@ -93,7 +90,7 @@ class coca(object):
 
                 elif i == matrix.shape[0] - 1:
                     if self.isolate[2]:
-                        dT = self.q2LinhaY(matrix[i + 1][j], matrix[i - 1][j])
+                        dT = 10
                     else:
                         dT = 0
                     # print(i, j, "base")
@@ -101,7 +98,7 @@ class coca(object):
 
                 elif j == matrix.shape[1] - 1:
                     if self.isolate[3]:
-                        dT = self.q2LinhaX(matrix[i][j + 1], matrix[i][j - 1])
+                        dT = 10
                     else:
                         dT = 0
                     # print(i, j, "direita")
@@ -133,14 +130,14 @@ class coca(object):
         return 1
 
     def rodaErro(self, matrizNossa, matrizGabarito, erro):
-        if self.checkErro(self, matrizNossa, matrizGabarito, erro):
+        if self.checkErro(matrizNossa, matrizGabarito, erro):
             print("Tá certo, gg wp")
             return
         print("TÁ ERRADO")
 
     def parserText(self, matriz):
         stringF = ""
-        for i in range(matriz.shape[0]):
+        for i in range(len(matriz)):
             stringF += "[   "
             for j in range(matriz.shape[1]):
                 stringF += str(round(matriz[i][j], 5)) + "    "
@@ -155,20 +152,18 @@ k = 0.23 # condutividade termica
 rho = 2.7e-6 # densidade
 Cp = 897 # calor especifico
 alpha = k / (rho * Cp)
-isolate = [1, 0, 1, 1] # Se a parede é isolada recebe 0, caso contrario 1
+isolate = [1, 1, 1, 1] # Se a parede é isolada recebe 0, caso contrario 1
 temp_ext = [150, 0, 0, 50]
 dt = 1e-2
 
 # dados tarefa 2 - Aula 20
-gabaritoTarefa2 = [[150,     150,     150,     150,     0], 
-                   [12.9929, 12.9981, 13.1632, 16.5732, 50], 
-                   [0.5977,  0.6035,  0.7945,  4.8822,  50], 
-                   [0.0189,  0.0244,  0.2061,  4.1606,  50], 
-                   [0,       0,       0,       0,        0]]
+gabaritoTarefa2 = np.array([[150,     150,     150,     150,     0], 
+                            [12.9929, 12.9981, 13.1632, 16.5732, 50], 
+                            [0.5977,  0.6035,  0.7945,  4.8822,  50], 
+                            [0.0189,  0.0244,  0.2061,  4.1606,  50], 
+                            [0,       0,       0,       0,        0]])
 
 erroTarefa2 = 2.8039e-04
-
-
 
 coke = coca(dx, dy, dimensions, alpha, isolate, dt, k)
 
