@@ -1,5 +1,5 @@
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 class coca(object):
     def __init__(self, dx, dy, dimensions, alpha, isolate, dt, K):
